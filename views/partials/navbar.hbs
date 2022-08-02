@@ -1,0 +1,99 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/Publico">Servicentro</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0" id="list">
+      </ul>
+    </div>
+    <a class="navbar-brand"  id="nombre"></a>
+    <button id="salir" class="btn btn-danger" >
+       Salir
+    </button>
+  </div>
+</nav>
+<div class="col-md-6" id="ale">
+        
+</div>
+
+<Script>
+  //Referencias HTML
+  const nom = document.querySelector('#nombre');
+  const salir = document.querySelector('#salir');
+  const ale = document.querySelector('#ale');
+  //Obtener Cookie
+  function getCookie(c_name) { 
+    if(document.cookie.length > 0) { 
+      c_start = document.cookie.indexOf(c_name + "="); 
+          if(c_start != -1) { 
+            c_start = c_start + c_name.length + 1; 
+            c_end = document.cookie.indexOf(";", c_start); 
+            if(c_end == -1) 
+              c_end = document.cookie.length; 
+            return unescape(document.cookie.substring(c_start, c_end)); 
+          } 
+      } 
+      return ""; 
+    } 
+    //Obtener el payload del token 
+    function parseJwt (token) {
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace('-', '+').replace('_', '/');
+        return JSON.parse(window.atob(base64));
+    };
+
+const cookie = getCookie("token");
+
+if(cookie){
+
+
+  (cookie)? salir.style.display = "" :salir.style.display = "none";
+
+  const {nombre, exp, rol} = parseJwt(cookie);
+  nom.innerHTML = nombre;
+
+  if(rol == "Administrador" ){
+    document.querySelector("#list").innerHTML = `<li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/publico">Publico</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/administracion">Administracion</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/gerencia">Gerencia</a>
+          </li>
+          `
+  }else{
+    if(rol == "Gerente" || rol == "Administrador"){
+      document.querySelector("#list").innerHTML = `<li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/publico">Publico</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/gerencia">Gerencia</a>
+          </li>
+          `
+    }else{
+      document.querySelector("#list").innerHTML = `<li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/publico">Publico</a>
+          </li>
+          `
+    }
+  }
+}else{
+  window.location.href = "/"; 
+}
+
+salir.addEventListener('click',()=>{
+   
+        document.cookie.split(";").forEach(function(c) {
+          document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+          document.location = "/";
+        });
+
+      
+});
+
+</Script>

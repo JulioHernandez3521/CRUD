@@ -1,0 +1,61 @@
+<div class="col-md-6">
+    {{#if errors}}
+      {{#each errors}}
+        <div class="alert alert-danger" role="alert">
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          {{this.msg}}
+        </div>
+      {{/each}}
+    {{/if}}
+</div>
+
+<div class="contaiener">
+  <h1>Ingrese los datos del nuevo Rol </h1>
+
+  <div class="col-md-12 mb-2" style="margin-top: 40px; margin-bottom: 80px;">
+    <form id="form-usuario"  action="/gerencia/store" method="post">
+      <div class="form-row">
+        <h4>Datos del Rol</h4>
+        
+          <div  class="col-md-12 mb-2">
+            <label class="control-label" for="nombre">Nombre:<span style="color: red;"> *</span></label>
+            <input id="nombre" name="nombre" type="text" class="form-control"  autofocus="autofocus"
+              placeholder="Nombre" value="{{rol.nombre}}"/>
+          </div>
+
+          <div  class="col-md-12 mb-2">
+            <label class="control-label" for="direccion">Descripcion:<span style="color: red;"> *</span></label>
+            <input id="direccion" name="descripcion" type="text" class="form-control"  autofocus="autofocus"
+              placeholder="Descripcion" value="{{rol.descripcion}}"/>
+          </div>
+          
+          <div  class="col-md-12 mb-2">
+            <label class="control-label" for="direccion">Tiempo de sesion:<span style="color: red;"> *</span></label>
+            <input id="sesion" name="tiempo_sesion" type="number" class="form-control"  autofocus="autofocus"
+              placeholder="Tiempo de sesion en minutos" value="{{rol.tiempo_sesion}}"/>
+          </div>
+
+
+        <div  class="col-md-12 mb-2">
+              {{#if opciones}}
+                    {{#each opciones}}
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="{{this.nombre}}" value="{{this.id}}" name="opciones">
+                            <label class="form-check-label" for="exampleCheck1">{{this.nombre}}</label>
+                        </div>
+                    {{/each}}
+              {{/if}}
+          </div>
+
+        
+        </div>
+        
+        <div class="form-group col-md-4 mt-4">
+          <button type="submit" class="btn btn-primary">Guardar</button>
+           <a class="btn btn-danger" href="/gerencia">Cancelar</a>
+        </div>
+    </form>
+  </div>
+</div>
+
+

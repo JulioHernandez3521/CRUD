@@ -1,0 +1,109 @@
+<div class="col-md-6">
+    {{#if errors}}
+      {{#each errors}}
+        <div class="alert alert-danger" role="alert">
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          {{this.msg}}
+        </div>
+      {{/each}}
+    {{/if}}
+</div>
+
+
+<div class="contaiener">
+  <h1>Ingrese los datos del nuevo Usuario </h1>
+
+  <div class="col-md-12 mb-2" style="margin-top: 40px; margin-bottom: 80px;">
+    <form id="form-usuario" action="/administracion/actualizaUsuario" method="POST" >
+      <div class="form-row">
+        <h4>Datos del usuario</h4>
+      
+        <div  class="col-md-12 mb-2">
+            <label class="control-label" for="nombre">Nombre:<span style="color: red;"> *</span></label>
+            <input id="nombre" name="nombre" type="text" class="form-control"  autofocus="autofocus"
+              placeholder="Nombre" value="{{usuario.nombre}}"/>
+          </div>
+
+          <div  class="col-md-12 mb-2">
+            <label class="control-label" for="nombre">Apellido:<span style="color: red;"> *</span></label>
+            <input id="apellido" name="apellido" type="text" class="form-control"  autofocus="autofocus"
+              placeholder="Apellido" value="{{usuario.apellido}}" />
+          </div>
+      
+          <div  class="col-md-12 mb-2">
+            <label class="control-label" for="correo">Correo:<span style="color: red;"> *</span></label>
+            <input id="correo" name="correo" type="email" class="form-control"  autofocus="autofocus"
+              placeholder="Correo" value="{{usuario.correo}}" readonly />
+          </div>
+
+          <div  class="col-md-12 mb-2">
+            <label class="control-label" for="password">Contraseña:<span style="color: red;"> *</span></label>
+            <input id="password" name="password" type="password" class="form-control"  autofocus="autofocus"
+              placeholder="Contraseña" maxlength="20" minlength="5" />
+          </div>
+
+          <div  class="col-md-12 mb-2">
+            <label class="control-label" for="telefono">Telefono:<span style="color: red;"> *</span></label>
+            <input id="telefono" name="telefono" type="text" class="form-control"  autofocus="autofocus"
+              placeholder="Telefono" value="{{usuario.telefono}}"/>
+          </div>
+        
+          <div  class="col-md-12 mb-2">
+            <label class="control-label" for="direccion">Direccion:<span style="color: red;"> *</span></label>
+            <input id="direccion" name="direccion" type="text" class="form-control"  autofocus="autofocus"
+              placeholder="Direccion" value="{{usuario.direccion}}"/>
+          </div>
+            <div  class="col-md-12 mb-2">
+            <label class="control-label" for="rol">Rol del usuario:<span style="color: red;"> *</span></label>
+            <select id="inputrols" class="form-control" required name="rol_fk">
+              <option>Elije una rol...</option>
+              {{#if roles}}
+                    {{#each roles}}
+                      <option value={{id}}>{{nombre}}</option>
+                    {{/each}}
+              {{/if}}
+            </select>
+          </div>
+
+          <div  class="col-md-12 mb-2" >
+            <label class="control-label" for="rol">Estado del usuario:<span style="color: red;"> *</span></label>
+            <select id="inputestados" class="form-control" required name="estado" >
+              <option value="Activo" >Activo</option>
+              <option value="Inactivo" >Inactivo</option>
+            </select>
+          </div>
+
+            <div  class="col-md-12 mb-2" style="display: none;" >
+            <input type="text" id="xs" value={{usuario.rol_fk}} />
+            <input type="text" id="xs1" value={{usuario.estado}} />
+            <input type="text" name="id" value={{usuario.id}} />
+          </div>
+
+        
+        </div>
+        
+        <div class="form-group col-md-4 mt-4">
+          <button type="submit" class="btn btn-primary">Guardar</button>
+           <a class="btn btn-danger" href="/administracion">Cancelar</a>
+        </div>
+    </form>
+  </div>
+</div>
+
+
+<script>
+    const valor = document.querySelector('#xs').value;
+    const select  = document.querySelector('#inputrols');
+    for(let i=0;i<select.length;i++){
+        if(select[i].value === valor ){
+           select[i].selected = true;
+        }
+    }
+    const valor1 = document.querySelector('#xs1').value;
+    const select1  = document.querySelector('#inputestados');
+    for(let i=0;i<select1.length;i++){
+        if(select1[i].value === valor1 ){
+           select1[i].selected1 = true;
+        }
+    }
+</script>

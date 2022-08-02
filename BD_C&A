@@ -1,0 +1,67 @@
+CREATE TABLE usuarios (
+	id int(9) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    rol_fk int(9) NOT NULL,
+    correo varchar(60) NOT NULL UNIQUE,
+   	password varchar(100) NOT NULL,
+    nombre varchar(40) NOT NULL,
+    apellido varchar(40) NOT NULL,
+    telefono varchar(20) NOT NULL,
+    estado varchar(15) NOT NULL DEFAULT 'Activo',
+    direccion varchar(150),
+    createdAt timestamp,
+    updatedAt timestamp
+);
+
+
+CREATE TABLE roles (
+	id int(9) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nombre varchar(40) NOT NULL UNIQUE,
+    tiempo_sesion int NOT NULL,
+    estado varchar(15) NOT NULL DEFAULT 'Activo',
+    descripcion varchar(100),
+    createdAt timestamp,
+    updatedAt timestamp
+);
+
+
+CREATE TABLE opciones (
+	id int(9) NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    nombre varchar(40) NOT NULL UNIQUE,
+    estado varchar(15) NOT NULL DEFAULT 'Activo',
+    descripcion varchar(100),
+    createdAt timestamp,
+    updatedAt timestamp
+);
+
+
+CREATE TABLE roles_opciones (
+	id int(9) PRIMARY KEY AUTO_INCREMENT,
+    rol_fk int(9) NOT NULL,
+    opcion_fk int(9) NOT NULL,
+    createdAt timestamp,
+    updatedAt timestamp
+);
+
+
+
+ALTER TABLE usuarios ADD CONSTRAINT id_rol_fk FOREIGN KEY (rol_fk) REFERENCES
+roles (id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE roles_opciones ADD CONSTRAINT id_rol1_fk FOREIGN KEY (rol_fk) REFERENCES roles(id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+ALTER TABLE roles_opciones ADD CONSTRAINT id_opcion_fk FOREIGN KEY (opcion_fk) REFERENCES opciones(id) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+
+INSERT INTO opciones (nombre, descripcion) VALUES ('Publico','Todos los usuarios registrados y con un token valido lo pueden ver');
+
+INSERT INTO opciones (nombre, descripcion) VALUES ('Gerencia','Solo los usuarios registrados, con el rol de gerencia y con un token valido lo pueden ver');
+
+INSERT INTO opciones (nombre, descripcion) VALUES ('Administracion','Todos los usuarios registrados, con el rol de administrador y con un token valido lo pueden ver');
+
+
+
+
+
+
+
+
